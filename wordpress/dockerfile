@@ -1,0 +1,26 @@
+# Use the base image with Debian Buster
+FROM debian:buster
+
+# Install PHP and necessary extensions
+RUN apt-get update && apt-get install -y \
+    php-fpm \
+    php-mysql \
+    php-curl \
+    php-gd \
+    php-mbstring \
+    php-xml
+
+# Set the working directory
+WORKDIR /var/www/html
+
+# Download and extract WordPress
+RUN apt-get install -y wget \
+    && wget -c http://wordpress.org/latest.tar.gz \
+    && tar -xzvf latest.tar.gz \
+    && rm latest.tar.gz
+
+# Expose the port for PHP-FPM
+EXPOSE 9000
+
+# Start PHP-FPM
+CMD ["/usr/sbin/php-fpm", "-F"]
