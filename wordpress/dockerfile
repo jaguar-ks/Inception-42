@@ -1,0 +1,26 @@
+FROM debian:buster
+
+# Install PHP, php-fpm, and other dependencies
+RUN apt-get update \
+    && apt-get install -y php php-fpm wget unzip
+
+# install wordpress
+RUN mkdir -p /var/www/html && \
+    wget https://wordpress.org/latest.zip && \
+    unzip latest.zip -d /var/www/html/ && \
+    rm latest.zip
+
+# Set ownership and permissions
+RUN chown -R www-data:www-data /var/www/html/wordpress
+
+# Copy custom PHP-FPM configuration
+COPY conf/php-fpm.conf /etc/php/7.3/fpm/php-fpm.conf
+
+# Set up WordPress configuration
+COPY conf/wp-config.php /var/www/html/wordpress/
+
+# Expose port 9000 for php-fpm
+EXPOSE 9000
+
+CMD ["/usr/sbin/php-fpm7.3", "-F"]
+
