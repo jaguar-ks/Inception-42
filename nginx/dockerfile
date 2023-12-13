@@ -1,23 +1,21 @@
-# Use the official Debian Buster as a base image
 FROM debian:buster
 
-# Install NGINX and OpenSSL
-RUN apt-get update && \
-    apt-get install -y nginx openssl && \
-    rm -rf /var/lib/apt/lists/*
+# Install NGINX and other dependencies
+RUN apt-get update \
+    && apt-get install -y nginx openssl 
 
-# Generate SSL certificate and key
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt \
-    -subj "/C=MA/ST=BENIMALAL-KHNEFRA/L=KHOURIBGA/O=Example/CN=example.com"
+# Create directory for SSL certificates
+RUN mkdir -p /etc/nginx/certs
 
-# Remove the default NGINX configuration
-RUN rm /etc/nginx/nginx.conf
+# Changing the working directory
+WORKDIR /etc/nginx
 
-# Copy your custom NGINX configuration file
+# Init SSL
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout certs/server.key -out certs/server.crt -subj "/C=MA/ST=Benimalal-Khonifra/L=Khouribga/O=1337/CN=localhost"
+
+# Copy NGINX configuration
 COPY tools/nginx.conf /etc/nginx/nginx.conf
 
-# Expose ports
 EXPOSE 443
 
-# Start NGINX
 CMD ["nginx", "-g", "daemon off;"]
