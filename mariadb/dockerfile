@@ -1,0 +1,14 @@
+# Use <link>Debian Buster</link> as the base image
+FROM debian:buster
+
+RUN apt-get update && apt-get install -y mariadb-server
+
+EXPOSE 3306
+
+COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+
+COPY tools/init.sql /
+
+RUN service mysql start && mysql < init.sql && rm -rf init.sql
+
+CMD ["mysqld"]
