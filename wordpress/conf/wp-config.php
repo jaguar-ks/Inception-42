@@ -1,7 +1,7 @@
 <?php
-define('DB_NAME', 'your_database_name');
-define('DB_USER', 'your_database_user');
-define('DB_PASSWORD', 'your_database_password');
+define('DB_NAME', 'wordpress');
+define('DB_USER', 'faksouss');
+define('DB_PASSWORD', '131216');
 define('DB_HOST', 'mariadb');  // Use the service name of your MariaDB container
 
 define('DB_CHARSET', 'utf8');
