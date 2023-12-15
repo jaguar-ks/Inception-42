@@ -1,0 +1,16 @@
+FROM debian:buster
+
+RUN apt-get update \
+    && apt-get install -y php php-fpm wget php-mysql
+
+RUN mkdir -p /var/www/html && \
+    cd /var/www/html && rm -rf * 
+
+COPY /tools/set_wordpress.sh /
+
+RUN chmod 777 set_wordpress.sh 
+
+EXPOSE 9000
+
+# CMD ["/usr/sbin/php-fpm7.3", "-F"]
+CMD ["./set_wordpress"]
