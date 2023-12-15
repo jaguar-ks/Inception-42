@@ -26,10 +26,10 @@ fi
 # Check if wp-config.php is created successfully
 if [ -e "${wordpress_path}wp-config.php" ]; then
     # Install WordPress
-    wp core install --url="http://faksouss.42.fr" --title="Hello" --admin_user="admin" --admin_password="admin" --admin_email="fahdamineksouss@gmail.com" --allow-root --path="$wordpress_path"
+    wp core install --url="http://faksouss.42.fr" --title="Hello" --admin_user="admin" --admin_password="admin" --admin_email="fahdamine59@gmail.com" --allow-root --path="$wordpress_path"
 
     # Create a user
-    wp user create faksouss fahdamineksouss@gmail.com --role=author --user_pass=131216 --allow-root --path="$wordpress_path"
+    wp user create faksouss fahdamine59@gmail.com --role=author --user_pass=131216 --allow-root --path="$wordpress_path"
 
     # Remove wp-config-sample.php
     rm -f "${wordpress_path}wp-config-sample.php"
