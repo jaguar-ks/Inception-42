@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  ngn:
+    env_file: 
+      - .env
+    image: nginx:1.0
+    container_name: nginx
+    depends_on:
+      - wdp
+    build: ./nginx
+    ports:
+      - 443:443
+    networks:
+      - lol
+    volumes:
+      - wdata:/var/www/html
+    restart: always
+
+  mdb:
+    env_file: 
+      - .env
+    image: mariadb:1.0
+    container_name: mariadb
+    build: ./mariadb
+    # ports:
+    #   - 3306:3306
+    volumes:
+      - mdata:/var/lib/mysql
+    networks:
+      - lol
+    restart: always
+  
+  wdp:
+    env_file: .env
+    image: wordpress:1.0
+    container_name: wordpress
+    depends_on:
+      - mdb
+    build: ./wordpress
+    # ports:
+    #   - 9000:9000
+    volumes:
+      - wdata:/var/www/html/
+    networks:
+      - lol
+    restart: always
+
+volumes:
+  wdata:
+    name: wdata
+    driver_opts:
+      device: /home/faksouss/data/wdata
+      o: bind
+      type: none
+  mdata:
+    name: mdata
+    driver_opts:
+      device: /home/faksouss/data/mdata
+      o: bind
+      type: none
+
+networks:
+  lol:
+    driver: bridge

@@ -20,7 +20,7 @@ fi
 # Check if wp-config.php exists
 if [ ! -e "${wordpress_path}wp-config.php" ]; then
     # Create wp-config.php with database details
-    wp config create --dbname=wordpress --dbuser=faksouss --dbpass=131216 --dbhost=mariadb --allow-root --path="$wordpress_path"
+    wp config create --dbname=${DB_NAME} --dbuser=${DB_USER} --dbpass=${DB_PSW} --dbhost=${DB_HOST} --allow-root --path="$wordpress_path"
 fi
 
 # Check if wp-config.php is created successfully
@@ -29,7 +29,7 @@ if [ -e "${wordpress_path}wp-config.php" ]; then
     wp core install --url="http://faksouss.42.fr" --title="Hello" --admin_user="admin" --admin_password="admin" --admin_email="fahdamine59@gmail.com" --allow-root --path="$wordpress_path"
 
     # Create a user
-    wp user create faksouss fahdamine59@gmail.com --role=author --user_pass=131216 --allow-root --path="$wordpress_path"
+    wp user create ${DB_USER} fahdamine59@gmail.com --role=author --user_pass=${DB_PSW} --allow-root --path="$wordpress_path"
 
     # Remove wp-config-sample.php
     rm -f "${wordpress_path}wp-config-sample.php"
@@ -44,10 +44,10 @@ if [ -e "${wordpress_path}wp-config.php" ]; then
 
     # Ensure the directory exists before attempting to modify the PHP configuration
     mkdir -p /run/php/
+    sed -i 's/listen = \/run\/php\/php7.3-fpm.sock/listen = 9000/g' /etc/php/7.3/fpm/pool.d/www.conf
 else
     echo "Error: 'wp-config.php' not found. Please check if the wp config create command was successful."
 fi
 
-sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 9000/g' /etc/php/7.3/fpm/pool.d/www.conf
 
 /usr/sbin/php-fpm7.3 -F
