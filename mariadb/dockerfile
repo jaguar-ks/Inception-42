@@ -1,10 +1,10 @@
 FROM debian:buster
 
-ENV DB_NAME="wordpress"
-ENV DB_USER="faksouss"
-ENV DB_PSW="131216"
-ENV DB_R_PSW="root131216"
-ENV DB_HOST="mariadb"
+# ENV DB_NAME="wordpress"
+# ENV DB_USER="faksouss"
+# ENV DB_PSW="131216"
+# ENV DB_R_PSW="root131216"
+# ENV DB_HOST="mariadb"
 
 RUN apt-get update && apt-get install -y mariadb-server
 
@@ -14,6 +14,6 @@ COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 COPY tools/setup_sql_script.sh /
 
-RUN chmod +x setup_sql_script.sh && ./setup_sql_script.sh && service mysql start && mysql < init.sql 
+RUN chmod +x setup_sql_script.sh
 
-CMD ["mysqld"]
+CMD ["./setup_sql_script.sh"]
