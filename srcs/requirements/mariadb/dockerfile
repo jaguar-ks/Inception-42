@@ -10,10 +10,10 @@ RUN apt-get update && apt-get install -y mariadb-server
 
 EXPOSE 3306
 
-COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-
 COPY tools/setup_sql_script.sh /
 
 RUN chmod +x setup_sql_script.sh
+
+COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 CMD ["./setup_sql_script.sh"]

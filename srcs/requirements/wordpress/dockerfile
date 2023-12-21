@@ -1,17 +1,9 @@
 
 FROM debian:buster
 
-
-ENV DB_NAME="wordpress"
-ENV DB_USER="faksouss"
-ENV DB_PSW="131216"
-ENV DB_R_PSW="root131216"
-ENV DB_HOST="mariadb"
-
 RUN apt-get update \
-    && apt-get install -y php php-fpm wget php-mysql
-
-RUN mkdir -p /var/www/html && \
+    && apt-get install -y php php-fpm wget php-mysql \
+    && mkdir -p /var/www/html && \
     cd /var/www/html && rm -rf * 
 
 COPY /tools/set_wordpress.sh /

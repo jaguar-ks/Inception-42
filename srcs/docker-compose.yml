@@ -8,13 +8,13 @@ services:
     container_name: nginx
     depends_on:
       - wdp
-    build: ./nginx
+    build: ./requirements/nginx
     ports:
       - 443:443
     networks:
       - lol
     volumes:
-      - wdata:/var/www/html
+      - wdata:/var/www/html/wordpress
     restart: always
 
   mdb:
@@ -22,9 +22,7 @@ services:
       - .env
     image: mariadb:1.0
     container_name: mariadb
-    build: ./mariadb
-    # ports:
-    #   - 3306:3306
+    build: ./requirements/mariadb
     volumes:
       - mdata:/var/lib/mysql
     networks:
@@ -37,14 +35,22 @@ services:
     container_name: wordpress
     depends_on:
       - mdb
-    build: ./wordpress
-    # ports:
-    #   - 9000:9000
+    build: ./requirements/wordpress
     volumes:
-      - wdata:/var/www/html/
+      - wdata:/var/www/html/wordpress
     networks:
       - lol
     restart: always
+
+  rds:
+    env_file: .env
+    image: redis:1.0
+    container_name: redis
+    build: ./requirements/redis
+    networks:
+      - lol
+    restart: always
+
 
 volumes:
   wdata:

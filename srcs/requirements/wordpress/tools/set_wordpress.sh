@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # Specify the WordPress installation path
-wordpress_path="/var/www/html/"
+wordpress_path="/var/www/html/wordpress/"
+
+mkdir -p $wordpress_path
 
 cd "$wordpress_path"
 
@@ -37,10 +39,17 @@ if [ -e "${wordpress_path}wp-config.php" ]; then
     # Install and activate plugins
     wp plugin install akismet --allow-root --path="$wordpress_path"
     wp plugin activate akismet --allow-root --path="$wordpress_path"
+    wp plugin install redis-cache --activate --allow-root  --path="$wordpress_path"
+    wp plugin update --all --allow-root  --path="$wordpress_path"
+    wp config set WP_REDIS_HOST redis --add --allow-root --path="$wordpress_path"
+    wp config set WP_REDIS_PORT 6379 --add --allow-root  --path="$wordpress_path"
+    wp config set WP_CACHE true --add --allow-root  --path="$wordpress_path"
+    wp redis enable --allow-root  --path="$wordpress_path"
 
     # Install and activate theme
     wp theme install neve --allow-root --path="$wordpress_path"
     wp theme activate neve --allow-root --path="$wordpress_path"
+    wp theme enable neve --activate --allow-root --path="$wordpress_path"
 
     # Ensure the directory exists before attempting to modify the PHP configuration
     mkdir -p /run/php/
