@@ -46,7 +46,7 @@ services:
     env_file: .env
     image: redis:1.0
     container_name: redis
-    build: ./requirements/redis
+    build: ./requirements/bonus/redis
     networks:
       - lol
     restart: always
@@ -56,14 +56,11 @@ services:
       - .env
     image: adminer:1.0
     container_name: adminer
-    build: ./requirements/adminer
+    build: ./requirements/bonus/adminer
     depends_on:
       - mdb
     networks:
       - lol
-    # volumes:
-    #   - wdata:/var/www/html
-    # restart: always
 
 
 volumes:
