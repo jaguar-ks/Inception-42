@@ -14,7 +14,7 @@ services:
     networks:
       - lol
     volumes:
-      - wdata:/var/www/html/wordpress
+      - wdata:/var/www/html
     restart: always
 
   mdb:
@@ -37,7 +37,7 @@ services:
       - mdb
     build: ./requirements/wordpress
     volumes:
-      - wdata:/var/www/html/wordpress
+      - wdata:/var/www/html
     networks:
       - lol
     restart: always
@@ -50,6 +50,20 @@ services:
     networks:
       - lol
     restart: always
+  
+  admnr:
+    env_file:
+      - .env
+    image: adminer:1.0
+    container_name: adminer
+    build: ./requirements/adminer
+    depends_on:
+      - mdb
+    networks:
+      - lol
+    # volumes:
+    #   - wdata:/var/www/html
+    # restart: always
 
 
 volumes:

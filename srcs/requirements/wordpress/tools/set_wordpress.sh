@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Specify the WordPress installation path
-wordpress_path="/var/www/html/wordpress/"
+wordpress_path="/var/www/html/"
 
 mkdir -p $wordpress_path
 
@@ -49,7 +49,6 @@ if [ -e "${wordpress_path}wp-config.php" ]; then
     # Install and activate theme
     wp theme install neve --allow-root --path="$wordpress_path"
     wp theme activate neve --allow-root --path="$wordpress_path"
-    wp theme enable neve --activate --allow-root --path="$wordpress_path"
 
     # Ensure the directory exists before attempting to modify the PHP configuration
     mkdir -p /run/php/
