@@ -43,7 +43,6 @@ services:
     restart: always
 
   rds:
-    env_file: .env
     image: redis:1.0
     container_name: redis
     build: ./requirements/bonus/redis
@@ -61,6 +60,19 @@ services:
       - mdb
     networks:
       - lol
+
+  ftp:
+    env_file:
+      - .env
+    image: ftp:1.0
+    container_name: ftp
+    build: ./requirements/bonus/ftp
+    ports:
+      - 21:21
+      - "21100-21110:21100-21110"
+    networks:
+      - lol
+    restart: always
 
 
 volumes:

@@ -1,0 +1,11 @@
+FROM debian:buster
+
+RUN apt-get update && apt-get install -y vsftpd
+
+COPY ./tools/ /
+
+COPY ./conf/ /
+
+RUN chmod +x setupftp.sh
+
+CMD [ "./setupftp.sh" ]
