@@ -56,6 +56,8 @@ services:
     image: adminer:1.0
     container_name: adminer
     build: ./requirements/bonus/adminer
+    volumes:
+      - wdata:/var/www/html
     depends_on:
       - mdb
     networks:
@@ -91,4 +93,4 @@ volumes:
 
 networks:
   lol:
-    driver: bridge
+    driver: bridge`
